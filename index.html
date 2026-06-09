@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>植樹紮營推理桌遊生成器</title>
+<title>植樹紮營推理桌遊</title>
 <script>
 /* html2canvas 1.4.1 */
 /*!
@@ -430,12 +430,39 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
 </script>
 <style>
-  :root{
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+body{
+  margin:0; font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  background:
+    radial-gradient(900px 500px at 85% -10%, #f3f7ea 0, transparent 60%),
+    radial-gradient(700px 600px at -10% 110%, #e7eed8 0, transparent 55%),
+    #eef2e6;
+  color:#33392c; min-height:100vh; line-height:1.6;
+}
+.app-wrap{max-width:1060px; margin:0 auto; padding:24px 18px 70px}
+.app-head{text-align:center; padding:18px 12px 6px}
+.app-head h1{margin:0 0 6px; font-size:clamp(24px,4.4vw,38px); font-weight:800; letter-spacing:.04em; color:#33392c}
+.app-head p{margin:0; color:#7d8470; font-size:14px}
+.app-head .by{margin-top:8px; font-size:13px; color:#a8702f; font-weight:700; letter-spacing:.05em}
+.tabs{display:flex; justify-content:center; margin:18px auto 22px; max-width:440px; background:#fff; border:1px solid #d8e0c8; border-radius:14px; padding:5px; box-shadow:0 6px 18px rgba(60,80,40,.10)}
+.tabs button{flex:1; padding:13px 10px; border:none; background:transparent; border-radius:10px; cursor:pointer; font-size:16px; font-weight:700; font-family:inherit; color:#7d8470; transition:.15s; min-height:48px}
+.tabs button.on{background:#4e7c3f; color:#fff; box-shadow:0 3px 8px rgba(78,124,63,.3)}
+.tab-panel{display:none}
+.tab-panel.show{display:block}
+@media(max-width:560px){
+  .app-wrap{padding:14px 10px 50px}
+  .app-head h1{font-size:23px}
+  .tabs{margin:14px auto 16px}
+  .tabs button{font-size:14px; padding:12px 5px}
+}
+/* ===== 紙本版 ===== */
+
+  #paperPanel{
     --bg:#eef2e6; --panel:#fbfdf6; --ink:#33392c; --muted:#7d8470;
     --line:#d8e0c8; --accent:#4e7c3f; --accent2:#a8702f;
     --shadow:0 10px 30px rgba(60,80,40,.12);
   }
-  *{box-sizing:border-box}
+  #paperPanel *{box-sizing:border-box}
   body{
     margin:0; font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
     background:
@@ -444,80 +471,222 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       var(--bg);
     color:var(--ink); min-height:100vh; line-height:1.6;
   }
-  .wrap{max-width:1060px; margin:0 auto; padding:28px 20px 80px}
-  header.hero{text-align:center; padding:30px 18px 22px; margin-bottom:22px; border-bottom:2px dashed var(--line)}
-  header.hero h1{margin:0 0 6px; font-size:clamp(24px,4.4vw,38px); letter-spacing:.04em; font-weight:800; color:var(--ink)}
-  header.hero p{margin:0; color:var(--muted); font-size:15px}
-  .grid2{display:grid; grid-template-columns:340px 1fr; gap:22px}
-  @media(max-width:840px){.grid2{grid-template-columns:1fr}}
+  #paperPanel .wrap{max-width:1060px; margin:0 auto; padding:28px 20px 80px}
+  #paperPanel header.hero{text-align:center; padding:30px 18px 22px; margin-bottom:22px; border-bottom:2px dashed var(--line)}
+  #paperPanel header.hero h1{margin:0 0 6px; font-size:clamp(24px,4.4vw,38px); letter-spacing:.04em; font-weight:800; color:var(--ink)}
+  #paperPanel header.hero p{margin:0; color:var(--muted); font-size:15px}
+  #paperPanel .grid2{display:grid; grid-template-columns:340px 1fr; gap:22px}
+  @media(max-width:840px){#paperPanel .grid2{grid-template-columns:1fr}}
   @media(max-width:560px){
-    .wrap{padding:16px 12px 56px}
-    header.hero{padding:18px 10px 16px; margin-bottom:16px}
-    header.hero h1{font-size:23px}
-    .grid2{gap:16px}
-    .panel{padding:16px; border-radius:14px}
-    .seg{gap:6px}
-    .seg button{min-width:0; padding:11px 4px; font-size:14px}
-    .btn{padding:15px; font-size:17px}
-    .preview-head{flex-direction:column; align-items:flex-start; gap:6px}
-    .preview-head h2{font-size:15px}
+    #paperPanel .wrap{padding:16px 12px 56px}
+    #paperPanel header.hero{padding:18px 10px 16px; margin-bottom:16px}
+    #paperPanel header.hero h1{font-size:23px}
+    #paperPanel .grid2{gap:16px}
+    #paperPanel .panel{padding:16px; border-radius:14px}
+    #paperPanel .seg{gap:6px}
+    #paperPanel .seg button{min-width:0; padding:11px 4px; font-size:14px}
+    #paperPanel .btn{padding:15px; font-size:17px}
+    #paperPanel .preview-head{flex-direction:column; align-items:flex-start; gap:6px}
+    #paperPanel .preview-head h2{font-size:15px}
   }
-  .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:var(--shadow)}
-  .panel h2{font-size:16px; margin:0 0 14px; letter-spacing:.05em; color:var(--accent)}
-  label{display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; font-weight:600}
-  input[type=text]{width:100%; font-size:16px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); font-family:inherit}
-  .seg{display:flex; gap:8px; flex-wrap:wrap}
-  .seg button{flex:1; min-width:56px; padding:9px 6px; border:1px solid var(--line); background:#fff; border-radius:10px; cursor:pointer; font-size:14px; font-family:inherit; color:var(--ink); transition:.15s}
-  .seg button.on{background:var(--accent); color:#fff; border-color:var(--accent)}
-  .btn{width:100%; margin-top:18px; padding:13px; border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:700; font-family:inherit; letter-spacing:.05em; background:var(--accent); color:#fff; transition:.15s}
-  .btn:hover{filter:brightness(1.05)}
-  .btn.alt{background:var(--accent2); margin-top:10px}
-  .hint{font-size:12px; color:var(--muted); margin-top:6px}
-  .preview-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px}
-  .preview-head h2{margin:0}
-  .tag{font-size:12px; color:var(--muted); background:#fff; border:1px solid var(--line); padding:4px 10px; border-radius:20px}
-  #preview{display:flex; flex-direction:column; align-items:center; gap:18px; width:100%}
-  .preview-page{position:relative; width:100%}
-  .pp-label{font-size:13px; font-weight:700; color:var(--accent); margin-bottom:6px; text-align:center}
-  .pp-frame{position:relative; width:100%; overflow:hidden}
-  .pp-frame .a4{position:absolute; top:0; left:0; transform-origin:top left}
+  #paperPanel .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:var(--shadow)}
+  #paperPanel .panel h2{font-size:16px; margin:0 0 14px; letter-spacing:.05em; color:var(--accent)}
+  #paperPanel label{display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; font-weight:600}
+  #paperPanel input[type=text]{width:100%; font-size:16px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); font-family:inherit}
+  #paperPanel .seg{display:flex; gap:8px; flex-wrap:wrap}
+  #paperPanel .seg button{flex:1; min-width:56px; padding:9px 6px; border:1px solid var(--line); background:#fff; border-radius:10px; cursor:pointer; font-size:14px; font-family:inherit; color:var(--ink); transition:.15s}
+  #paperPanel .seg button.on{background:var(--accent); color:#fff; border-color:var(--accent)}
+  #paperPanel .btn{width:100%; margin-top:18px; padding:13px; border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:700; font-family:inherit; letter-spacing:.05em; background:var(--accent); color:#fff; transition:.15s}
+  #paperPanel .btn:hover{filter:brightness(1.05)}
+  #paperPanel .btn.alt{background:var(--accent2); margin-top:10px}
+  #paperPanel .hint{font-size:12px; color:var(--muted); margin-top:6px}
+  #paperPanel .preview-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px}
+  #paperPanel .preview-head h2{margin:0}
+  #paperPanel .tag{font-size:12px; color:var(--muted); background:#fff; border:1px solid var(--line); padding:4px 10px; border-radius:20px}
+  #paperPanel #preview{display:flex; flex-direction:column; align-items:center; gap:18px; width:100%}
+  #paperPanel .preview-page{position:relative; width:100%}
+  #paperPanel .pp-label{font-size:13px; font-weight:700; color:var(--accent); margin-bottom:6px; text-align:center}
+  #paperPanel .pp-frame{position:relative; width:100%; overflow:hidden}
+  #paperPanel .pp-frame .a4{position:absolute; top:0; left:0; transform-origin:top left}
   /* ====== A4 模板 ====== */
-  .a4{width:794px; height:1123px; background:#fff; color:#2a2620; position:relative; font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif; overflow:hidden}
-  .a4-pad{position:absolute; inset:0; padding:42px 21px 60px}
-  .sheet-header{border-bottom:3px solid #2a2620; padding-bottom:12px; margin-bottom:20px}
-  .sheet-header .t1{font-size:25px; font-weight:800; letter-spacing:.05em}
-  .sheet-header .t2{font-size:13px; color:#6a6256; margin-top:4px}
-  .rule-box{border:1.5px solid #bcd0a0; border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:12.5px; line-height:1.9; background:#f3f8ea}
-  .rule-box b{color:#3c6b2f}
-  .rule-box .ico{font-size:15px}
+  #paperPanel .a4{width:794px; height:1123px; background:#fff; color:#2a2620; position:relative; font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif; overflow:hidden}
+  #paperPanel .a4-pad{position:absolute; inset:0; padding:42px 21px 60px}
+  #paperPanel .sheet-header{border-bottom:3px solid #2a2620; padding-bottom:12px; margin-bottom:20px}
+  #paperPanel .sheet-header .t1{font-size:25px; font-weight:800; letter-spacing:.05em}
+  #paperPanel .sheet-header .t2{font-size:13px; color:#6a6256; margin-top:4px}
+  #paperPanel .rule-box{border:1.5px solid #bcd0a0; border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:12.5px; line-height:1.9; background:#f3f8ea}
+  #paperPanel .rule-box b{color:#3c6b2f}
+  #paperPanel .rule-box .ico{font-size:15px}
+  #paperPanel .ico-svg{display:inline-flex; vertical-align:middle; margin:0 2px}
+  #paperPanel .ico-svg svg{display:inline-block}
+  #paperPanel .legend .ico-svg svg{width:20px;height:20px}
   /* 盤面 */
-  .board-wrap{display:flex; justify-content:center; margin:8px 0}
-  .ttgrid{border-collapse:collapse}
-  .ttgrid td{border:1.4px solid #b9c7a0; text-align:center; vertical-align:middle; padding:0}
-  .ttgrid td.cell{background:#fcfdf8}
-  .ttgrid td.num{background:#eef3e2; color:#4e7c3f; font-weight:800; border:none}
-  .ttgrid td.numTop{vertical-align:bottom; padding-bottom:4px}
-  .ttgrid td.numLeft{text-align:right; padding-right:6px}
-  .ttgrid td.corner{background:transparent; border:none}
-  .tree{color:#2f7d4f}
-  .tent{color:#a8702f}
-  .glyph{line-height:1; display:block}
+  #paperPanel .board-wrap{display:flex; justify-content:center; margin:8px 0}
+  #paperPanel .ttgrid{border-collapse:collapse}
+  #paperPanel .ttgrid td{border:1.4px solid #b9c7a0; text-align:center; vertical-align:middle; padding:0}
+  #paperPanel .ttgrid td.cell{background:#fcfdf8}
+  #paperPanel .ttgrid td.num{background:#eef3e2; color:#4e7c3f; font-weight:800; border:none}
+  #paperPanel .ttgrid td.numTop{vertical-align:bottom; padding-bottom:4px}
+  #paperPanel .ttgrid td.numLeft{text-align:right; padding-right:6px}
+  #paperPanel .ttgrid td.corner{background:transparent; border:none}
+  #paperPanel .tree{color:#2f7d4f}
+  #paperPanel .tent{color:#a8702f}
+  #paperPanel .glyph{line-height:1; display:block}
   /* 圖例 */
-  .legend{display:flex; gap:24px; justify-content:center; margin-top:14px; font-size:13px; color:#5a5446}
-  .legend span{display:inline-flex; align-items:center; gap:7px}
-  .legend .lg{font-size:20px}
+  #paperPanel .legend{display:flex; gap:24px; justify-content:center; margin-top:14px; font-size:13px; color:#5a5446}
+  #paperPanel .legend span{display:inline-flex; align-items:center; gap:7px}
+  #paperPanel .legend .lg{font-size:20px}
   /* 解答補充 */
-  .ans-note{font-size:12.5px; color:#6a6256; line-height:1.85; margin-top:14px; border-top:1px solid #e0e6d4; padding-top:12px}
-  .sheet-footer{position:absolute; left:21px; right:21px; bottom:24px; text-align:center; font-size:11.5px; color:#857c6d; border-top:1px solid #e0d6c4; padding-top:9px}
+  #paperPanel .ans-note{font-size:12.5px; color:#6a6256; line-height:1.85; margin-top:14px; border-top:1px solid #e0e6d4; padding-top:12px}
+  #paperPanel .sheet-footer{position:absolute; left:21px; right:21px; bottom:24px; text-align:center; font-size:11.5px; color:#857c6d; border-top:1px solid #e0d6c4; padding-top:9px}
+
+/* ===== 互動版 ===== */
+
+  #playPanel{
+    --bg:#eef2e6; --panel:#fbfdf6; --ink:#33392c; --muted:#7d8470;
+    --line:#d8e0c8; --accent:#4e7c3f; --tent:#f08a24; --tentEdge:#c25a10;
+    --cellbg:#fcfdf8; --numbg:#eef3e2; --gridline:#b9c7a0;
+    --shadow:0 10px 30px rgba(60,80,40,.12);
+  }
+  #playPanel *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html, body{margin:0; padding:0}
+  body{
+    font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+    background:
+      radial-gradient(900px 500px at 85% -10%, #f3f7ea 0, transparent 60%),
+      radial-gradient(700px 600px at -10% 110%, #e7eed8 0, transparent 55%),
+      var(--bg);
+    color:var(--ink); min-height:100vh; line-height:1.6; padding:14px 12px 40px;
+  }
+  #playPanel .wrap{max-width:620px; margin:0 auto}
+  #playPanel header.hero{text-align:center; padding:14px 10px 14px}
+  #playPanel header.hero h1{margin:0 0 4px; font-size:clamp(21px,5.5vw,30px); font-weight:800; letter-spacing:.03em}
+  #playPanel header.hero p{margin:0; color:var(--muted); font-size:13px}
+  #playPanel header.hero .by{margin-top:6px; font-size:12px; color:var(--tentEdge); font-weight:700; letter-spacing:.05em}
+  #playPanel .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow); margin-bottom:14px}
+  /* 設定列 */
+  #playPanel .ctrls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center}
+  #playPanel .ctrl-group{display:flex; gap:6px; align-items:center}
+  #playPanel .ctrl-group .lbl{font-size:12px; color:var(--muted); font-weight:600}
+  #playPanel .seg{display:inline-flex; gap:4px}
+  #playPanel .seg button{min-height:40px; min-width:42px; padding:7px 10px; border:1px solid var(--line); background:#fff; border-radius:9px; cursor:pointer; font-size:14px; font-family:inherit; color:var(--ink); transition:.12s}
+  #playPanel .seg button.on{background:var(--accent); color:#fff; border-color:var(--accent)}
+  #playPanel .btnrow{display:flex; gap:8px; margin-top:12px}
+  #playPanel .btn{flex:1; min-height:48px; border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:700; font-family:inherit; background:var(--accent); color:#fff; transition:.12s}
+  #playPanel .btn:active{transform:scale(.97)}
+  #playPanel .btn.sec{background:#fff; color:var(--accent); border:1.5px solid var(--accent)}
+  #playPanel .btn.warn{background:var(--tent)}
+  /* 狀態列 */
+  #playPanel .statusbar{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap}
+  #playPanel .statusbar .meta{font-size:13px; color:var(--muted)}
+  #playPanel .statusbar .msg{font-size:14px; font-weight:700; padding:5px 12px; border-radius:20px; background:#fff; border:1px solid var(--line)}
+  #playPanel .msg.good{background:#e8f4e0; color:#2f7d2f; border-color:#a9d59a}
+  #playPanel .msg.bad{background:#fbe6da; color:#c25a10; border-color:#e6b48f}
+  /* 棋盤 */
+  #playPanel .board-area{display:flex; justify-content:center; padding:6px 0 2px; overflow-x:auto}
+  #playPanel table.tt{border-collapse:collapse; touch-action:manipulation}
+  #playPanel table.tt td{padding:0; text-align:center; vertical-align:middle}
+  #playPanel td.num{background:var(--numbg); color:var(--accent); font-weight:800; border:none}
+  #playPanel td.num.bad{color:#d23f1f}
+  #playPanel td.num.done{color:#2f9d4f}
+  #playPanel td.corner{background:transparent; border:none}
+  #playPanel td.cell{border:1.5px solid var(--gridline); background:var(--cellbg); cursor:pointer; position:relative; transition:background .1s}
+  #playPanel td.cell:active{background:#f0f5e4}
+  #playPanel td.cell.tree{cursor:default; background:#f4f9ec}
+  #playPanel td.cell.marked{background:#fff6ec}
+  #playPanel td.cell.grass{background:#f3f4ef}
+  #playPanel .cellinner{width:100%; height:100%; display:flex; align-items:center; justify-content:center}
+  #playPanel .cellinner svg{display:block; width:74%; height:74%}
+  #playPanel .tree-emo{line-height:1}
+  #playPanel .dot{width:18%; height:18%; border-radius:50%; background:#c9cdbe}
+  /* 圖例＋說明 */
+  #playPanel .legend{display:flex; gap:16px; justify-content:center; flex-wrap:wrap; font-size:13px; color:#5a5446; margin-top:10px}
+  #playPanel .legend span{display:inline-flex; align-items:center; gap:6px}
+  #playPanel .legend svg{width:20px;height:20px}
+  #playPanel .legend .te{font-size:18px}
+  #playPanel details.rules{margin-top:6px; font-size:13px; color:#5a5446}
+  #playPanel details.rules summary{cursor:pointer; font-weight:700; color:var(--accent); padding:6px 0}
+  #playPanel details.rules ul{margin:6px 0 0; padding-left:20px; line-height:1.8}
+  #playPanel .hint-line{font-size:13px; color:var(--muted); text-align:center; margin-top:8px; min-height:18px}
+  #playPanel .tapmode{font-size:12px; color:var(--muted); text-align:center; margin-top:4px}
+
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="hero">
+<div class="app-wrap">
+  <header class="app-head">
     <h1>植樹紮營推理桌遊</h1>
-    <p>每棵樹旁紮一頂帳篷・帳篷不相鄰・依行列數字推理出唯一解</p>
-    <p style="margin-top:8px; font-size:13px; color:var(--accent2); font-weight:700; letter-spacing:.06em">設計者：愛迪樂　鍾孟修　職能治療師</p>
+    <p>每棵樹旁紮一頂橘色帳篷・帳篷互不相鄰・依行列數字推理唯一解</p>
+    <div class="by">設計者：愛迪樂　鍾孟修　職能治療師</div>
   </header>
+  <div class="tabs">
+    <button id="tabPlay" class="on">🎮 互動版（直接玩）</button>
+    <button id="tabPaper">🖨️ 紙本列印版</button>
+  </div>
+  <div id="playPanel" class="tab-panel show">
+    
+
+  
+
+  <div class="panel">
+    <div class="ctrls">
+      <div class="ctrl-group"><span class="lbl">盤面</span>
+        <div class="seg" id="g_sizeSeg">
+          <button data-n="5">5</button>
+          <button data-n="6" class="on">6</button>
+          <button data-n="7">7</button>
+          <button data-n="8">8</button>
+          <button data-n="10">10</button>
+        </div>
+      </div>
+      <div class="ctrl-group"><span class="lbl">難度</span>
+        <div class="seg" id="g_diffSeg">
+          <button data-d="0.14">易</button>
+          <button data-d="0.17" class="on">中</button>
+          <button data-d="0.20">難</button>
+        </div>
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="g_newBtn">新題目</button>
+      <button class="btn sec" id="g_checkBtn">檢查答案</button>
+      <button class="btn sec" id="g_hintBtn">提示</button>
+    </div>
+    <div class="btnrow">
+      <button class="btn sec" id="g_clearBtn">清除</button>
+      <button class="btn warn" id="g_solveBtn">看解答</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="statusbar">
+      <span class="meta" id="g_meta">—</span>
+      <span class="msg" id="g_msg">點格子放帳篷</span>
+    </div>
+    <div class="board-area"><div id="g_board"></div></div>
+    <div class="legend">
+      <span><span class="te">🌲</span>樹</span>
+      <span id="g_lgTent"></span>
+      <span><span class="dot" style="width:14px;height:14px"></span>草地（標記非帳篷）</span>
+    </div>
+    <div class="tapmode">點一下放帳篷 ▲、再點變草地 ·、再點清空</div>
+    <div class="hint-line" id="g_hintLine"></div>
+    <details class="rules">
+      <summary>遊戲規則</summary>
+      <ul>
+        <li>每棵樹 🌲 旁邊（上下左右其中一格）恰有一頂帳篷，帳篷與樹一對一。</li>
+        <li>任兩頂帳篷不可相鄰，連斜角（八方向）都不行。</li>
+        <li>每列左側、每行上方的數字＝該列／行帳篷總數。</li>
+        <li>小技巧：先把數字 0 的整列整行標成草地，再找只有單一空格可放的樹。</li>
+      </ul>
+    </details>
+  </div>
+
+  </div>
+  <div id="paperPanel" class="tab-panel">
+    
+
+  
 
   <div class="grid2">
     <div class="panel">
@@ -565,11 +734,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       <div id="preview"></div>
     </div>
   </div>
+
+  </div>
 </div>
-
 <div id="render" style="position:fixed; left:-99999px; top:0"></div>
-
 <script>
+// ===================== 共用核心邏輯 =====================
 // ===================== 核心邏輯 =====================
 function makeRng(s){let h=1779033703^s.length;for(let i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19;}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);h=(h^h>>>16)>>>0;return h/4294967296;};}
 function pick(r,n){return Math.floor(r()*n);}
@@ -660,6 +830,8 @@ function genUnique(N, density, seedStr){
   return null;
 }
 
+
+// ===================== 紙本列印版 =====================
 // ===================== 介面 =====================
 let current=null;
 function doGenerate(){
@@ -683,6 +855,16 @@ function doGenerate(){
   renderPreview();
 }
 
+// 橘色三角形帳篷符號（紙本：玩家可直接照畫此記號）
+function tentTriangle(size){
+  const s=size, p=s*0.08;
+  // 等腰三角形，底部含一條橫桿（帳篷感）
+  return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 100 100" style="display:block;margin:auto">'+
+    '<polygon points="50,12 88,82 12,82" fill="#f08a24" stroke="#c25a10" stroke-width="7" stroke-linejoin="round"/>'+
+    '<line x1="50" y1="34" x2="50" y2="82" stroke="#c25a10" stroke-width="6"/>'+
+    '</svg>';
+}
+
 // 盤面 HTML：showTents=false 只顯示樹+數字；true 額外顯示帳篷
 function boardHTML(p, showTents, cellPx){
   const {N,trees,rowCount,colCount,solTent}=p;
@@ -700,7 +882,7 @@ function boardHTML(p, showTents, cellPx){
     for(let c=0;c<N;c++){
       let g='';
       if(isTree[r][c]) g='<span class="glyph tree" style="font-size:'+glyph+'px">🌲</span>';
-      else if(showTents && solTent[r][c]) g='<span class="glyph tent" style="font-size:'+glyph+'px">⛺</span>';
+      else if(showTents && solTent[r][c]) g=tentTriangle(Math.round(cellPx*0.66));
       h+='<td class="cell" style="width:'+cellPx+'px;height:'+cellPx+'px">'+g+'</td>';
     }
     h+='</tr>';
@@ -758,13 +940,13 @@ function buildPuzzlePage(){
   const dn={0.14:'簡單',0.17:'中等',0.20:'困難'};
   const body=
     '<div class="rule-box">'+
-    '<b>遊戲目標：</b>在空格中畫上帳篷 <span class="ico">⛺</span>，使得：<br>'+
+    '<b>遊戲目標：</b>在空格中畫上橘色三角形帳篷 <span class="ico-svg">'+tentTriangle(16)+'</span>，使得：<br>'+
     '<b>① 配對：</b>每棵樹 <span class="ico">🌲</span> 旁邊（上、下、左、右其中一格）恰有一頂帳篷，且帳篷與樹一對一。<br>'+
     '<b>② 不相鄰：</b>任兩頂帳篷不可相鄰，連斜角（八個方向）都不行。<br>'+
     '<b>③ 數字：</b>每一列左側、每一行上方的數字，代表該列／該行帳篷的總數。<br>'+
-    '<b>提示：</b>先從數字是 0 的列行下手刪去，再找只有單一鄰格可放的樹。每題都只有一種正確答案。</div>'+
+    '<b>玩法：</b>用筆在你判斷是帳篷的格子裡畫一個三角形，全部完成後再翻到解答頁對答案。先從數字 0 的列行刪去，再找只有單一鄰格可放的樹最容易上手。</div>'+
     gridBlocks(false)+
-    '<div class="legend"><span><span class="lg">🌲</span>樹（已給定）</span><span><span class="lg">⛺</span>帳篷（待填入）</span><span>數字＝該列／行帳篷數</span></div>';
+    '<div class="legend"><span><span class="lg">🌲</span>樹（已給定）</span><span><span class="ico-svg">'+tentTriangle(20)+'</span>帳篷（玩家畫上）</span><span>數字＝該列／行帳篷數</span></div>';
   return pageScaffold('植樹紮營推理桌遊',
     N+'×'+N+'　共 '+cnt+' 題　種子：'+seed+'　｜　每棵樹紮一帳・帳篷互不相鄰・對齊行列數字',
     body);
@@ -773,7 +955,7 @@ function buildPuzzlePage(){
 function buildAnswerPage(){
   const {N,seed,cnt}=current;
   const body=
-    '<div class="rule-box"><b>解答：</b>下圖標出每題帳篷 <span class="ico">⛺</span> 的正確位置（唯一解）。'+
+    '<div class="rule-box"><b>解答：</b>下圖橘色三角形 <span class="ico-svg">'+tentTriangle(16)+'</span> 標出每題帳篷的正確位置（唯一解）。'+
     '可檢查：每棵樹 🌲 旁恰有一頂帳篷、帳篷彼此不相鄰（含斜角）、且各列各行帳篷數與邊上數字相符。</div>'+
     gridBlocks(true)+
     '<div class="ans-note"><b>檢查要點：</b>① 樹與帳篷數量相等且一一對應；② 將任一頂帳篷的八個鄰格塗一遍，不應壓到另一頂帳篷；③ 逐列逐行點數，與邊上數字一致即正確。</div>';
@@ -816,7 +998,7 @@ async function downloadPDF(){
   status.textContent='已下載 PDF';
 }
 
-document.querySelectorAll('.seg').forEach(seg=>{
+document.querySelectorAll('#paperPanel .seg').forEach(seg=>{
   seg.addEventListener('click',e=>{
     if(e.target.tagName!=='BUTTON')return;
     seg.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
@@ -825,7 +1007,176 @@ document.querySelectorAll('.seg').forEach(seg=>{
 });
 document.getElementById('genBtn').addEventListener('click',doGenerate);
 document.getElementById('pdfBtn').addEventListener('click',downloadPDF);
-doGenerate();
+
+// ===================== 互動版 =====================
+// 橘色三角形帳篷
+function tentSVG(){
+  return '<svg viewBox="0 0 100 100"><polygon points="50,12 88,82 12,82" fill="#f08a24" stroke="#c25a10" stroke-width="7" stroke-linejoin="round"/><line x1="50" y1="34" x2="50" y2="82" stroke="#c25a10" stroke-width="6"/></svg>';
+}
+
+// ===== 遊戲狀態 =====
+// state[r][c]: 0=空, 1=帳篷, 2=草地(玩家標記非帳篷)。樹格不可點。
+let G=null; // {N, trees(set), rowCount, colCount, solTent, isTree, state, revealed}
+
+function newGame(){
+  const on=q=>document.querySelector(q+' .on');
+  const N=+on('#sizeSeg').dataset.n;
+  const density=+on('#diffSeg').dataset.d;
+  const seed=String(Math.floor(Math.random()*1e9));
+  let p=null,k=0;
+  while(!p&&k<8){ p=genUnique(N,density,seed+(k?'_'+k:'')); k++; }
+  if(!p){ setMsg('產生失敗，再試一次','bad'); return; }
+  const isTree=Array.from({length:N},()=>Array(N).fill(false));
+  p.trees.forEach(([r,c])=>isTree[r][c]=true);
+  G={N, trees:p.trees, rowCount:p.rowCount, colCount:p.colCount, solTent:p.solTent,
+     isTree, state:Array.from({length:N},()=>Array(N).fill(0)), revealed:false, seed:p.seed};
+  const dn={'0.14':'簡單','0.17':'中等','0.20':'困難'}[density.toFixed(2)];
+  document.getElementById('g_meta').textContent=N+'×'+N+'・'+dn+'・'+p.nTent+' 頂帳篷';
+  setMsg('點格子放帳篷');
+  document.getElementById('g_hintLine').textContent='';
+  render();
+}
+
+function setMsg(t,cls){
+  const m=document.getElementById('g_msg');
+  m.textContent=t; m.className='msg'+(cls?' '+cls:'');
+}
+
+function cellPx(){
+  const N=G.N;
+  const maxW=Math.min(document.getElementById('playPanel').clientWidth-30, 580);
+  return Math.max(30, Math.min(60, Math.floor(maxW/(N+1))));
+}
+
+function render(){
+  const {N,isTree,state,rowCount,colCount}=G;
+  const px=cellPx();
+  const fs=Math.round(px*0.4);
+  const tfs=Math.round(px*0.62);
+  // 即時行列計數
+  const rc=Array(N).fill(0), cc=Array(N).fill(0);
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++) if(state[r][c]===1){rc[r]++; cc[c]++;}
+  let h='<table class="tt">';
+  h+='<tr><td class="corner" style="width:'+px+'px;height:'+px+'px"></td>';
+  for(let c=0;c<N;c++){
+    let cls='num'; if(cc[c]===colCount[c]) cls+=' done'; else if(cc[c]>colCount[c]) cls+=' bad';
+    h+='<td class="'+cls+'" style="width:'+px+'px;height:'+px+'px;font-size:'+fs+'px">'+colCount[c]+'</td>';
+  }
+  h+='</tr>';
+  for(let r=0;r<N;r++){
+    let rcls='num'; if(rc[r]===rowCount[r]) rcls+=' done'; else if(rc[r]>rowCount[r]) rcls+=' bad';
+    h+='<tr><td class="'+rcls+'" style="width:'+px+'px;height:'+px+'px;font-size:'+fs+'px">'+rowCount[r]+'</td>';
+    for(let c=0;c<N;c++){
+      if(isTree[r][c]){
+        h+='<td class="cell tree" style="width:'+px+'px;height:'+px+'px"><div class="cellinner"><span class="tree-emo" style="font-size:'+tfs+'px">🌲</span></div></td>';
+      }else{
+        const s=state[r][c];
+        let cls='cell'+(s===1?' marked':s===2?' grass':'');
+        let inner='';
+        if(s===1) inner='<div class="cellinner">'+tentSVG()+'</div>';
+        else if(s===2) inner='<div class="cellinner"><span class="dot"></span></div>';
+        h+='<td class="'+cls+'" data-r="'+r+'" data-c="'+c+'" style="width:'+px+'px;height:'+px+'px">'+inner+'</td>';
+      }
+    }
+    h+='</tr>';
+  }
+  h+='</table>';
+  document.getElementById('g_board').innerHTML=h;
+  // 綁定點擊
+  document.querySelectorAll('#g_board td.cell:not(.tree)').forEach(td=>{
+    td.addEventListener('click',()=>{
+      if(G.revealed) return;
+      const r=+td.dataset.r, c=+td.dataset.c;
+      G.state[r][c]=(G.state[r][c]+1)%3; // 空→帳篷→草地→空
+      render();
+    });
+  });
+}
+
+// 圖例三角形
+document.getElementById('g_lgTent').innerHTML=tentSVG().replace('<svg','<svg style="width:20px;height:20px"')+'帳篷';
+
+function checkAnswer(){
+  const {N,state,solTent,rowCount,colCount,isTree}=G;
+  // 行列數先檢查
+  for(let r=0;r<N;r++){let n=0;for(let c=0;c<N;c++)if(state[r][c]===1)n++; if(n!==rowCount[r]){setMsg('第 '+(r+1)+' 列帳篷數不對','bad');return;}}
+  for(let c=0;c<N;c++){let n=0;for(let r=0;r<N;r++)if(state[r][c]===1)n++; if(n!==colCount[c]){setMsg('第 '+(c+1)+' 行帳篷數不對','bad');return;}}
+  // 帳篷不相鄰
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++) if(state[r][c]===1){
+    for(const [dr,dc] of DIAG8){const nr=r+dr,nc=c+dc; if(nr>=0&&nr<N&&nc>=0&&nc<N&&state[nr][nc]===1){setMsg('有兩頂帳篷相鄰了','bad');return;}}
+  }
+  // 與標準解一致（唯一解，故可直接比對）
+  let ok=true;
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){ const want=solTent[r][c]?1:0; const got=state[r][c]===1?1:0; if(want!==got) ok=false; }
+  if(ok) setMsg('完全正確！🎉 全部紮營成功','good');
+  else setMsg('數字都對，但帳篷位置還不對','bad');
+}
+
+function showHint(){
+  const {N,state,solTent,isTree}=G;
+  // 找一個「解答是帳篷但目前不是帳篷」的格子，標上去
+  const cands=[];
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++) if(solTent[r][c] && state[r][c]!==1) cands.push([r,c]);
+  if(cands.length===0){ setMsg('沒有可提示的格子了','good'); return; }
+  const [r,c]=cands[Math.floor(Math.random()*cands.length)];
+  state[r][c]=1;
+  document.getElementById('g_hintLine').textContent='提示：已替你在第 '+(r+1)+' 列、第 '+(c+1)+' 行放上一頂帳篷';
+  render();
+}
+
+function clearAll(){
+  if(!G) return;
+  G.state=Array.from({length:G.N},()=>Array(G.N).fill(0));
+  G.revealed=false;
+  setMsg('已清除，重新開始');
+  document.getElementById('g_hintLine').textContent='';
+  render();
+}
+
+function showSolution(){
+  const {N,solTent}=G;
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++) G.state[r][c]=solTent[r][c]?1:0;
+  G.revealed=true;
+  setMsg('已顯示解答','good');
+  render();
+}
+
+// 設定按鈕
+document.querySelectorAll('#playPanel .seg').forEach(seg=>{
+  seg.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON')return;
+    seg.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on');
+    newGame();
+  });
+});
+document.getElementById('g_newBtn').addEventListener('click',newGame);
+document.getElementById('g_checkBtn').addEventListener('click',checkAnswer);
+document.getElementById('g_hintBtn').addEventListener('click',showHint);
+document.getElementById('g_clearBtn').addEventListener('click',clearAll);
+document.getElementById('g_solveBtn').addEventListener('click',showSolution);
+window.addEventListener('resize',()=>{ if(G) render(); });
+newGame();
+
+// ===================== 分頁切換 =====================
+(function(){
+  const tabPlay=document.getElementById('tabPlay');
+  const tabPaper=document.getElementById('tabPaper');
+  const playPanel=document.getElementById('playPanel');
+  const paperPanel=document.getElementById('paperPanel');
+  let paperInited=false;
+  tabPlay.addEventListener('click',function(){
+    tabPlay.classList.add('on'); tabPaper.classList.remove('on');
+    playPanel.classList.add('show'); paperPanel.classList.remove('show');
+    if(typeof G!=='undefined' && G && typeof render==='function') render();
+  });
+  tabPaper.addEventListener('click',function(){
+    tabPaper.classList.add('on'); tabPlay.classList.remove('on');
+    paperPanel.classList.add('show'); playPanel.classList.remove('show');
+    if(!paperInited){ paperInited=true; doGenerate(); }
+    else if(typeof scalePreview==='function'){ scalePreview(); }
+  });
+})();
 </script>
 </body>
 </html>
